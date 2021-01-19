@@ -20,26 +20,14 @@ void graph_biggest_word (Word *words, uint16_t unique_words);
 void word_count (Word *word, uint16_t word_counter, uint16_t unique_words);
 void symbol_count (Word *word, uint16_t unique_words);
 void graph_biggest_word_horizontal (Word *words, uint16_t unique_words);
+uint16_t count_words ();
 
 int main()
 {
     // Writing the text if we do not have one:
     enter_text ();
 
-    FILE *file_pointer;
-    char buff [255];
-    uint16_t word_counter = 0;
-
-    // Open the file
-    file_pointer = fopen ("Temp.txt", "r");
-
-    // Count how many words there are
-    while (fscanf (file_pointer, "%s", buff) != EOF) {
-        ++word_counter;
-    }
-
-    // Close the file
-    fclose (file_pointer);
+    uint16_t word_counter = count_words ();
 
     // Create the array of words. This is wasteful of memory, but the dynamic way of resizing arrays is too complex.
     Word *words;
@@ -56,6 +44,8 @@ int main()
     }
 
     // Open the file
+    FILE *file_pointer;
+    char buff [255];
     file_pointer = fopen ("Temp.txt", "r");
 
     // Populate the array with all the words
@@ -100,7 +90,7 @@ int main()
     }
 
     // Plot the graph
-    graph_biggest_word_horizontal (words, unique_words - 1);
+    graph_biggest_word (words, unique_words - 1);
 
     // Word count + word frequency
     word_count (words, word_counter, unique_words - 1);
@@ -119,6 +109,7 @@ void enter_text ()
         char sentence [65535];
 
         // Write your book here
+        printf ("Enter your text here:\n");
         fp = fopen ("Temp.txt", "w+");
         fgets(sentence, sizeof(sentence), stdin);
         fprintf(fp, "%s", sentence);
@@ -324,4 +315,24 @@ void graph_biggest_word_horizontal (Word *words, uint16_t unique_words)
         }
     }
     printf ("\n\n");
+}
+
+uint16_t count_words ()
+{
+    FILE *file_pointer;
+    char buff [255];
+    uint16_t word_counter = 0;
+
+    // Open the file
+    file_pointer = fopen ("Temp.txt", "r");
+
+    // Count how many words there are
+    while (fscanf (file_pointer, "%s", buff) != EOF) {
+        ++word_counter;
+    }
+
+    // Close the file
+    fclose (file_pointer);
+
+    return word_counter;
 }
