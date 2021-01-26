@@ -89,6 +89,9 @@ int main()
         }
     }
 
+    // Cut the useless array and free up memory
+    words = realloc (words, unique_words);
+
     // Plot the graph
     graph_biggest_word (words, unique_words - 1);
 
@@ -97,6 +100,9 @@ int main()
 
     // Symbol count, letter count, spaces count, others count (special symbols and digits)
     symbol_count (words, unique_words - 1);
+
+    // Free up all the memory
+    free (words);
 
     return 0;
 }
